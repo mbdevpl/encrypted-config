@@ -6,8 +6,7 @@ import unittest
 
 import rsa
 
-from encrypted_config.crypto import encrypt
-from encrypted_config.json_crypto import JSONEncrypter, JSONDecrypter
+from encrypted_config.crypto import encrypt, decrypt
 
 _LOG = logging.getLogger(__name__)
 
@@ -16,7 +15,7 @@ _HERE = pathlib.Path(__file__).parent
 
 class Tests(unittest.TestCase):
 
-    def test_encrypter_decrypter(self):
+    def test_encrypt_decrypt(self):
         public_key_path = pathlib.Path(_HERE, 'test_id_rsa.pub.pem')
         with public_key_path.open() as public_key_file:
             public_key_str = public_key_file.read()
@@ -31,14 +30,11 @@ class Tests(unittest.TestCase):
         self.assertIsInstance(private_key, rsa.PrivateKey)
         _LOG.info('using private key: %s', private_key_path)
 
-        secret = encrypt('my-secret', public_key)
-
         for public_, private_ in itertools.product(
                 (public_key_path, public_key_str, public_key),
                 (private_key_path, private_key_str, private_key)):
-            encrypter = JSONEncrypter(public_)
-            decrypter = JSONDecrypter(private_)
-            for example in ('""', '"1234"', '[]', '["1234"]', r'{}', r'{"key"}'):
-                pass
-            for example in ('"secure:{}"'.format(secret), '["1234", "secure:{}"]'.format(secret)):
-                pass
+            for example in ('1234', b'1234'):
+                ciphertext = encrypt(example, public_)
+                self.assertIsInstance(ciphertext, type(example))
+                cleartext = decrypt(ciphertext, private_)
+                self.assertEqual(cleartext, example)
