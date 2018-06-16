@@ -3,6 +3,7 @@
 import json
 import json.decoder
 import pathlib
+import typing as t
 
 from .path_tools import normalize_path
 
@@ -11,12 +12,12 @@ JSON_INDENT = 2
 JSON_ENSURE_ASCII = False
 
 
-def json_to_str(data: dict) -> str:
-    assert isinstance(data, dict), type(data)
+def json_to_str(data: t.Union[str, list, dict]) -> str:
+    assert isinstance(data, (str, list, dict)), type(data)
     return json.dumps(data, indent=JSON_INDENT, ensure_ascii=JSON_ENSURE_ASCII)
 
 
-def str_to_json(text: str) -> dict:
+def str_to_json(text: str) -> t.Union[str, list, dict]:
     """Convert JSON string into an object."""
     try:
         return json.loads(text)
@@ -27,16 +28,16 @@ def str_to_json(text: str) -> dict:
             ''.join(lines[err.lineno:min(err.lineno + 10, len(lines))]))) from err
 
 
-def json_to_file(data: dict, path: pathlib.Path) -> None:
+def json_to_file(data: t.Union[str, list, dict], path: pathlib.Path) -> None:
     """Save JSON object to a file."""
-    assert isinstance(data, dict), type(data)
+    assert isinstance(data, (str, list, dict)), type(data)
     assert isinstance(path, pathlib.Path), type(path)
     text = json_to_str(data)
     with open(normalize_path(str(path)), 'w', encoding='utf-8') as json_file:
         json_file.write(text)
 
 
-def file_to_json(path: pathlib.Path) -> dict:
+def file_to_json(path: pathlib.Path) -> t.Union[str, list, dict]:
     """Create JSON object from a file."""
     with open(normalize_path(str(path)), 'r', encoding='utf-8') as json_file:
         text = json_file.read()
