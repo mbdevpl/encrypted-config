@@ -10,7 +10,7 @@ encrypted-config
     :target: https://pypi.org/project/encrypted-config
     :alt: package version from PyPI
 
-.. image:: https://travis-ci.org/mbdevpl/encrypted-config.svg?branch=master
+.. image:: https://travis-ci.com/mbdevpl/encrypted-config.svg?branch=master
     :target: https://travis-ci.org/mbdevpl/encrypted-config
     :alt: build status from Travis CI
 
@@ -66,3 +66,5 @@ Python version 3.4 or later.
 Python libraries as specified in `<requirements.txt>`_.
 
 Building and running tests additionally requires packages listed in `<test_requirements.txt>`_.
+
+Tested on Linux, OS X and Windows.

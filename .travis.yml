@@ -1,0 +1,60 @@
+sudo: false
+language: generic
+matrix:
+  include:
+    - os: linux
+      language: python
+      python: "3.4"
+    - os: linux
+      language: python
+      python: "3.5"
+    - os: linux
+      language: python
+      python: "3.6"
+    - os: linux
+      language: python
+      python: "3.7-dev"
+    - os: linux
+      language: python
+      python: "pypy3.5-5.8.0"
+    - os: osx
+      language: generic
+      env: TRAVIS_PYTHON_VERSION="3.4.8"
+    - os: osx
+      language: generic
+      env: TRAVIS_PYTHON_VERSION="3.5.5"
+    - os: osx
+      language: generic
+      env: TRAVIS_PYTHON_VERSION="3.6.5"
+    - os: osx
+      language: generic
+      env: TRAVIS_PYTHON_VERSION="3.7-dev"
+  allow_failures:
+    - python: "3.7-dev"
+    - env: TRAVIS_PYTHON_VERSION="3.7-dev"
+
+before_install: |
+  set -e
+  if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
+    brew update
+    brew install pyenv || brew upgrade pyenv
+    pyenv install "${TRAVIS_PYTHON_VERSION}"
+    export PATH="$HOME/.pyenv/versions/${TRAVIS_PYTHON_VERSION}/bin:${PATH}"
+  fi
+  set +e
+
+install:
+  - pip install -U pip
+  - pip install -U -r dev_requirements.txt
+
+script:
+  - TEST_PACKAGING=1 python -m coverage run --branch --source . -m unittest discover --verbose
+
+after_success:
+  - python -m coverage report --show-missing
+  - codecov
+
+notifications:
+  slack:
+    secure: "Rqp8yM8fjDgS+Oi+/0fHWqEg9ABAmIyOP7dkcF/tSQ3nEi+jzDD69VxFYfOLXDq/h5Tn38bNTUWIsvZnu46M+bsK+equhdXjhsBH1QXERnR6VxWC0R90IGUomj2I2Dl65NzHRkngt7MqNeGuDc7CttbMqAfchHh7AmEDlC93g/UL8Iyv7MDxDhX/o+Zfjl01woGhhLhlnGE+LiAmoORDPWdqkRDaMKPmmFDyXLNOS1jO+JvOtLRYgZ2T+5KON/ut45G4x2kUkMEzg6p1k+D1bxpRq30tF2kKqTjxSXYLcvuApn7jupJIgKvC+B/Nzq6ac5ipbhTYfgTrPy1JryX69BGFZRosuk2Gh+flmpWMJ6QJv6Q2VQZ7zZzYbNe2JLsGh5XVy1vKxitZD7GxM05Uy4iG98EbSJ+cBt3a6riuoX/68AclBHQpF753LGUaPGCrwZk3M/YUUea99uTLIOYQy2eV3KxEX1QWnGDrbBzrEVjf5lNA2F+Autq8QTdDZqcoqAexyPgPOfQhK6GsoX7oUStCoJnQNDH2W9TJQMp2kInwqSObfL75QDBqnLIk0Xdgut2D6gxr/+s36MjU0MFwfJto/p3lGT/wpDOi7oIgU2cEpg5jHb5uwicJahlNDmxUmSnQ4LkCxZneWoYB3FeNuFG8JGZPbB1fv9G8/gUDHNM="
+  email: false
