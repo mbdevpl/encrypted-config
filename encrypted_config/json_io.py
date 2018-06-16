@@ -1,7 +1,6 @@
 """JSON-based configuration I/O."""
 
 import json
-import json.decoder
 import pathlib
 import typing as t
 
@@ -21,7 +20,9 @@ def str_to_json(text: str) -> t.Union[str, list, dict]:
     """Convert JSON string into an object."""
     try:
         return json.loads(text)
-    except json.decoder.JSONDecodeError as err:
+    except getattr(json, 'JSONDecodeError', ValueError) as err:
+        if not isinstance(err, getattr(json, 'JSONDecodeError', type(None))):
+            raise
         lines = text.splitlines(keepends=True)
         raise ValueError('\n{}{}\n{}'.format(
             ''.join(lines[max(0, err.lineno - 10):err.lineno]), '-' * err.colno,
