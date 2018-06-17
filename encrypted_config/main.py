@@ -4,7 +4,7 @@ import logging
 import pathlib
 
 from .json_io import str_to_json, json_to_str, file_to_json
-from .json_crypto import JSONEncrypter, JSONDecrypter
+from .json_crypto import encrypt_json, decrypt_json
 
 _LOG = logging.getLogger(__name__)
 
@@ -42,11 +42,9 @@ def main(args=None):
     _LOG.debug('key: %s', key_path)
 
     if parsed_args.command == 'encrypt':
-        transformer = JSONEncrypter(key_path)
+        transformed_data = encrypt_json(data, key_path)
     elif parsed_args.command == 'decrypt':
-        transformer = JSONDecrypter(key_path)
+        transformed_data = decrypt_json(data, key_path)
 
-    transformed_data = transformer.transform(data)
     _LOG.debug('transformed json: %s', transformed_data)
-
     print(json_to_str(transformed_data))

@@ -30,6 +30,13 @@ class JSONEncrypter(JSONTransformer):
         raise NotImplementedError()
 
 
+def encrypt_json(data: t.Union[str, list, dict],
+                 public_key: t.Union[pathlib.Path, str, rsa.PublicKey],
+                 *args, **kwargs) -> t.Union[str, list, dict]:
+    encrypter = JSONEncrypter(public_key, *args, **kwargs)
+    return encrypter.transform(data)
+
+
 class JSONDecrypter(JSONTransformer):
 
     """Decrypt JSON."""
@@ -63,3 +70,11 @@ class JSONDecrypter(JSONTransformer):
         if data.startswith('secure:'):
             return decrypt(data[7:], self._private_key)
         return data
+
+
+def decrypt_json(data: t.Union[str, list, dict],
+                 private_key: t.Union[pathlib.Path, str, rsa.PublicKey],
+                 *args, **kwargs) -> t.Union[str, list, dict]:
+    """Create decrypted JSON object from a partially encryted file or JSON object."""
+    decrypter = JSONDecrypter(private_key, *args, **kwargs)
+    return decrypter.transform(data)
