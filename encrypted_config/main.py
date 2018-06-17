@@ -4,6 +4,7 @@ import logging
 import pathlib
 
 from .json_io import str_to_json, json_to_str, file_to_json
+from .json_transform import json_coordinate
 from .json_crypto import encrypt_json, decrypt_json
 
 _LOG = logging.getLogger(__name__)
@@ -47,10 +48,41 @@ def main(args=None):
     key_path = pathlib.Path(parsed_args.key)
     # _LOG.debug('key: %s', key_path)
 
-    if parsed_args.command == 'encrypt':
-        transformed_data = encrypt_json(data, key_path)
-    elif parsed_args.command == 'decrypt':
-        transformed_data = decrypt_json(data, key_path)
+    if coordinates:
+        for coordinate in coordinates:
+            if not coordinate.startswith('--'):
+                raise ValueError('expected sequence of JSON coordinates, but encountered "{}"'
+                                 .format(coordinate))
+            parent_getter, last_part = json_coordinate(data, coordinate[2:], parent=True)
+            getter, setter = json_coordinate(data, coordinate[2:])
+            parent = parent_getter()
+            value = getter()
+            if parsed_args.command == 'encrypt':
+                if isinstance(last_part, int):
+                    raise NotImplementedError()
+                else:
+                    parent['secure:{}'.format(last_part)] = ""
+                    # del parent[last_part]
+                transformed_value = encrypt_json(parent, key_path)
+                if isinstance(last_part, int):
+                    pass
+                else:
+                    parent['secure:{}'.format(last_part)] = transformed_value['secure:{}'.format(last_part)]
+                    del parent[last_part]
+            elif parsed_args.command == 'decrypt':
+                transformed_value = decrypt_json(value, key_path)
+                if isinstance(last_part, int):
+                    raise NotImplementedError()
+                else:
+                    assert last_part.startswith('secure:')
+                    parent[last_part[7:]] = transformed_value
+            # setter(transformed_value)
+        transformed_data = data
+    else:
+        if parsed_args.command == 'encrypt':
+            transformed_data = encrypt_json(data, key_path)
+        elif parsed_args.command == 'decrypt':
+            transformed_data = decrypt_json(data, key_path)
 
     # _LOG.debug('transformed json: %s', transformed_data)
     print(json_to_str(transformed_data))
