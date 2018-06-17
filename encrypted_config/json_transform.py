@@ -29,10 +29,15 @@ class JSONTransformer(metaclass=abc.ABCMeta):
         assert isinstance(data, dict), type(data)
         return data
 
-    @abc.abstractmethod
+    # @abc.abstractmethod
     def transform_list(self, data: list) -> list:
         assert isinstance(data, list), type(data)
-        return data
+        # return data
+        # data = super().transform_list(data)
+        transformed = type(data)()
+        for value in data:
+            transformed.append(self.transform_value(value))
+        return transformed
 
     @abc.abstractmethod
     def transform_str(self, data: str) -> str:

@@ -25,12 +25,16 @@ class Tests(unittest.TestCase):
         decrypter = JSONDecrypter(private_key_path)
         secret = encrypt('my-secret', public_key_path)
 
-        for example in ('""', '"1234"'):  # , '[]', '["1234"]', r'{}', r'{"key"}'):
+        for example in (r'{"key": "1234", "secure:key": ""}', r'{"key": "test", "secure:key": ""}'):
             data = str_to_json(example)
             encrypted_data = encrypter.transform(data)
-            self.assertTrue(encrypted_data.startswith('secure:'))
+            _LOG.warning('encrypted data: %s', encrypted_data)
+            self.assertNotIn('key', encrypted_data)
+            self.assertIn('secure:key', encrypted_data)
+            self.assertTrue(encrypted_data['secure:key'])
             decrypted_data = decrypter.transform(encrypted_data)
-            self.assertEqual(decrypted_data, data)
+            self.assertIn('key', decrypted_data)
+            self.assertEqual(decrypted_data['key'], data['key'])
         for example in ('"secure:{}"'.format(secret), '["1234", "secure:{}"]'.format(secret)):
             data = str_to_json(example)
             decrypted_data = decrypter.transform(data)
