@@ -13,7 +13,8 @@ class JSONEncrypter(JSONTransformer):
 
     """Encrypt JSON."""
 
-    def __init__(self, public_key: t.Union[pathlib.Path, str, rsa.PublicKey], template=None):
+    def __init__(self, public_key: t.Union[pathlib.Path, str, rsa.PublicKey], *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._public_key = prepare_public_key(public_key)  # type: rsa.PublicKey
 
     def transform_dict(self, data: dict) -> dict:
@@ -22,12 +23,16 @@ class JSONEncrypter(JSONTransformer):
     def transform_list(self, data: list) -> list:
         raise NotImplementedError()
 
+    def transform_str(self, data: list) -> list:
+        raise NotImplementedError()
+
 
 class JSONDecrypter(JSONTransformer):
 
     """Decrypt JSON."""
 
-    def __init__(self, private_key: str):
+    def __init__(self, private_key: t.Union[pathlib.Path, str, rsa.PublicKey], *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._private_key = prepare_private_key(private_key)  # type: rsa.PrivateKey
 
     def transform_dict(self, data: dict) -> dict:
@@ -49,3 +54,8 @@ class JSONDecrypter(JSONTransformer):
             else:
                 transformed.append(value)
         return transformed
+
+    def transform_str(self, data: str) -> str:
+        if data.startswith('secure:'):
+            return decrypt(data[7:], self._private_key)
+        return data
