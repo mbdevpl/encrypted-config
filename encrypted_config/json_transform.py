@@ -8,6 +8,9 @@ class JSONTransformer(metaclass=abc.ABCMeta):
 
     """Transform JSON."""
 
+    def __init__(self):
+        pass
+
     def transform(self, data: t.Any) -> t.Any:
         transformed_data = self.transform_value(data)
         return transformed_data

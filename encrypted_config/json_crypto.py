@@ -1,4 +1,4 @@
-"""Decrypting JSON."""
+"""Encrypting and decrypting JSON."""
 
 import pathlib
 import typing as t
@@ -18,12 +18,15 @@ class JSONEncrypter(JSONTransformer):
         self._public_key = prepare_public_key(public_key)  # type: rsa.PublicKey
 
     def transform_dict(self, data: dict) -> dict:
+        data = super().transform_dict(data)
         raise NotImplementedError()
 
     def transform_list(self, data: list) -> list:
+        data = super().transform_list(data)
         raise NotImplementedError()
 
-    def transform_str(self, data: list) -> list:
+    def transform_str(self, data: str) -> str:
+        data = super().transform_str(data)
         raise NotImplementedError()
 
 
