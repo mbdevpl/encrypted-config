@@ -5,7 +5,8 @@ import pathlib
 import sys
 import unittest
 
-from encrypted_config.crypto import encrypt
+from encrypted_config.json_io import str_to_json
+from encrypted_config.crypto import encrypt, decrypt
 from encrypted_config.main import main
 from .test_setup import run_module
 
@@ -47,15 +48,18 @@ class Tests(unittest.TestCase):
             with contextlib.redirect_stderr(sio):
                 main(['test'])
 
-    @unittest.expectedFailure
     def test_encrypt(self):
         public_key_path = pathlib.Path(_HERE, 'test_id_rsa.pub.pem')
-        secret = encrypt('1234', public_key_path)
+        private_key_path = pathlib.Path(_HERE, 'test_id_rsa')
+        # secret = encrypt('1234', public_key_path)
         sio = io.StringIO()
         with contextlib.redirect_stdout(sio):
             main(['encrypt', '--key', str(public_key_path),
                   '--json', '{"login": "1234"}', '--login'])
-        self.assertIn('"secure:login": "{}"'.format(secret), sio.getvalue())
+        self.assertNotIn('"login": ', sio.getvalue())
+        self.assertIn('"secure:login": ', sio.getvalue())
+        data = str_to_json(sio.getvalue())
+        self.assertEqual(decrypt(data["secure:login"], private_key_path), '1234')
 
     def test_decrypt(self):
         public_key_path = pathlib.Path(_HERE, 'test_id_rsa.pub.pem')
