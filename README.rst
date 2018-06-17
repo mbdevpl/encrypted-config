@@ -23,7 +23,7 @@ encrypted-config
     :alt: test coverage from Codecov
 
 .. image:: https://img.shields.io/pypi/l/encrypted-config.svg
-    :target: https://travis-ci.org/mbdevpl/encrypted-config/blob/master/NOTICE
+    :target: https://github.com/mbdevpl/encrypted-config/blob/master/NOTICE
     :alt: license
 
 Library and command-line tool for reading and writing of partially encrypted configuration files.
