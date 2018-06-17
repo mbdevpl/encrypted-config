@@ -47,7 +47,7 @@ class Tests(unittest.TestCase):
             with contextlib.redirect_stderr(sio):
                 main(['test'])
 
-    @unittest.skip('not ready')
+    @unittest.expectedFailure
     def test_encrypt(self):
         public_key_path = pathlib.Path(_HERE, 'test_id_rsa.pub.pem')
         secret = encrypt('1234', public_key_path)
@@ -64,7 +64,7 @@ class Tests(unittest.TestCase):
         sio = io.StringIO()
         with contextlib.redirect_stdout(sio):
             main(['decrypt', '--key', str(private_key_path),
-                  '--json', '{{"secure:login": "{}"}}'.format(secret), '--login'])
+                  '--json', '{{"secure:login": "{}"}}'.format(secret)])
         self.assertIn('"login": "1234"', sio.getvalue())
 
     def test_as_script(self):

@@ -34,6 +34,7 @@ class JSONDecrypter(JSONTransformer):
     def __init__(self, private_key: t.Union[pathlib.Path, str, rsa.PublicKey], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._private_key = prepare_private_key(private_key)  # type: rsa.PrivateKey
+        self.keep_encrypted = True
 
     def transform_dict(self, data: dict) -> dict:
         data = super().transform_dict(data)
@@ -41,7 +42,7 @@ class JSONDecrypter(JSONTransformer):
         for key, value in data.items():
             if key.startswith('secure:'):
                 transformed[key[7:]] = decrypt(value, self._private_key)
-            else:
+            if not key.startswith('secure:') or self.keep_encrypted:
                 transformed[key] = value
         return transformed
 

@@ -29,17 +29,17 @@ def main(args=None):
 
     parsed_args, unknown = parser.parse_known_args(args)
 
-    _LOG.warning('known args: %s', parsed_args)
-    _LOG.warning('unknown args: %s', unknown)
+    _LOG.debug('known args: %s', parsed_args)
+    _LOG.debug('unknown args: %s', unknown)
 
     if parsed_args.json is not None:
         data = str_to_json(parsed_args.json)
     elif parsed_args.path is not None:
         data = file_to_json(pathlib.Path(parsed_args.path))
-    _LOG.warning('json: %s', data)
+    _LOG.debug('json: %s', data)
 
     key_path = pathlib.Path(parsed_args.key)
-    _LOG.warning('key: %s', key_path)
+    _LOG.debug('key: %s', key_path)
 
     if parsed_args.command == 'encrypt':
         transformer = JSONEncrypter(key_path)
@@ -47,6 +47,6 @@ def main(args=None):
         transformer = JSONDecrypter(key_path)
 
     transformed_data = transformer.transform(data)
-    _LOG.warning('transformed json: %s', transformed_data)
+    _LOG.debug('transformed json: %s', transformed_data)
 
     print(json_to_str(transformed_data))

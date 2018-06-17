@@ -11,16 +11,12 @@ encrypted-config
     :alt: package version from PyPI
 
 .. image:: https://travis-ci.com/mbdevpl/encrypted-config.svg?branch=master
-    :target: https://travis-ci.org/mbdevpl/encrypted-config
+    :target: https://travis-ci.com/mbdevpl/encrypted-config
     :alt: build status from Travis CI
 
 .. image:: https://ci.appveyor.com/api/projects/status/github/mbdevpl/encrypted-config?svg=true
     :target: https://ci.appveyor.com/project/mbdevpl/encrypted-config
     :alt: build status from AppVeyor
-
-.. image:: https://api.codacy.com/project/badge/Grade/<package-code>
-    :target: https://www.codacy.com/app/mbdevpl/encrypted-config
-    :alt: grade from Codacy
 
 .. image:: https://codecov.io/gh/mbdevpl/encrypted-config/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/mbdevpl/encrypted-config
