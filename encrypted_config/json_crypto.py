@@ -27,7 +27,7 @@ class JSONEncrypter(JSONTransformer):
 
     def transform_str(self, data: str) -> str:
         data = super().transform_str(data)
-        raise NotImplementedError()
+        return 'secure:{}'.format(encrypt(data, self._public_key))
 
 
 def encrypt_json(data: t.Union[str, list, dict],

@@ -31,7 +31,7 @@ class JSONTransformer(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def transform_list(self, data: list) -> list:
-        assert isinstance(data, dict), type(data)
+        assert isinstance(data, list), type(data)
         return data
 
     @abc.abstractmethod
