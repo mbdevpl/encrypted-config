@@ -37,6 +37,15 @@ class Tests(unittest.TestCase):
         data = str_to_json(sio.getvalue())
         self.assertEqual(decrypt(data["secure:login"], private_key_path), '1234')
 
+        sio = io.StringIO()
+        with contextlib.redirect_stdout(sio):
+            main(['encrypt', '--key', str(public_key_path),
+                  '--json', '{"login": "1234", "secure:login": ""}'])
+        self.assertNotIn('"login": ', sio.getvalue())
+        self.assertIn('"secure:login": ', sio.getvalue())
+        data = str_to_json(sio.getvalue())
+        self.assertEqual(decrypt(data["secure:login"], private_key_path), '1234')
+
     def test_decrypt(self):
         public_key_path = pathlib.Path(_HERE, 'test_id_rsa.pub.pem')
         private_key_path = pathlib.Path(_HERE, 'test_id_rsa')
