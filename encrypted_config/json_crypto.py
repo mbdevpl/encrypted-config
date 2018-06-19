@@ -24,6 +24,8 @@ class JSONEncrypter(JSONTransformer):
         transformed = type(data)()
         for key, value in data.items():
             if key.startswith('secure:'):
+                if key not in transformed:
+                    transformed[key] = value
                 continue
             secure_key = 'secure:{}'.format(key)
             if secure_key in data:
