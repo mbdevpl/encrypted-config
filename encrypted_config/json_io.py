@@ -36,6 +36,7 @@ def json_to_file(data: t.Union[str, list, dict], path: pathlib.Path) -> None:
     text = json_to_str(data)
     with open(normalize_path(str(path)), 'w', encoding='utf-8') as json_file:
         json_file.write(text)
+        json_file.write('\n')
 
 
 def file_to_json(path: pathlib.Path) -> t.Union[str, list, dict]:
