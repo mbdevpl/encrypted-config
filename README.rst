@@ -6,6 +6,8 @@
 encrypted-config
 ================
 
+Library and command-line tool for reading and writing of partially encrypted configuration files.
+
 .. image:: https://img.shields.io/pypi/v/encrypted-config.svg
     :target: https://pypi.org/project/encrypted-config
     :alt: package version from PyPI
@@ -22,11 +24,11 @@ encrypted-config
     :target: https://codecov.io/gh/mbdevpl/encrypted-config
     :alt: test coverage from Codecov
 
-.. image:: https://img.shields.io/pypi/l/encrypted-config.svg
+.. image:: https://img.shields.io/github/license/mbdevpl/encrypted-config.svg
     :target: https://github.com/mbdevpl/encrypted-config/blob/master/NOTICE
     :alt: license
 
-Library and command-line tool for reading and writing of partially encrypted configuration files.
+Because of asymmetric encryption, it enables users to create encrypted configuration files readable only by the target application.
 
 .. contents::
     :backlinks: none
@@ -57,7 +59,7 @@ The library relies on RSA.
 Requirements
 ============
 
-Python version 3.4 or later.
+Python version 3.5 or later.
 
 Python libraries as specified in `<requirements.txt>`_.
 

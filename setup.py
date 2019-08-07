@@ -9,7 +9,7 @@ class Package(setup_boilerplate.Package):
 
     name = 'encrypted-config'
     description = 'Partially encrypted configuration library/tool.'
-    download_url = 'https://github.com/mbdevpl/encrypted-config'
+    url = 'https://github.com/mbdevpl/encrypted-config'
     classifiers = [
         'Development Status :: 1 - Planning',
         'Environment :: Console',
@@ -19,9 +19,9 @@ class Package(setup_boilerplate.Package):
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX :: Linux',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Communications :: File Sharing',
         'Topic :: Security :: Cryptography',

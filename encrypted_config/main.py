@@ -12,7 +12,7 @@ _LOG = logging.getLogger(__name__)
 def main(args=None):
     parser = argparse.ArgumentParser(
         prog='encrypted_config', description='',
-        epilog='Copyright 2018  Mateusz Bysiek  https://mbdevpl.github.io/',
+        epilog='Copyright 2018-2019  Mateusz Bysiek  https://mbdevpl.github.io/',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('command', type=str, choices=['encrypt', 'decrypt'])
     parser.add_argument(
