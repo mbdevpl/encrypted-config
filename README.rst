@@ -37,9 +37,21 @@ Because of asymmetric encryption, it enables users to create encrypted configura
 How to use
 ==========
 
+
+As a library
+------------
+
 .. code:: python
 
     import encrypted_config
+
+
+Details are to be decided.
+
+As a command-line tool
+----------------------
+
+To be decided.
 
 
 How to NOT use
