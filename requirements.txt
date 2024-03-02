@@ -1,3 +1,2 @@
-rsa
-typing >= 3.5; python_version < '3.5'
-version_query
+rsa ~= 4.9
+version-query ~= 1.5

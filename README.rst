@@ -6,26 +6,26 @@
 encrypted-config
 ================
 
-Library and command-line tool for reading and writing of partially encrypted configuration files.
+Read and write partially encrypted configuration files.
 
 .. image:: https://img.shields.io/pypi/v/encrypted-config.svg
     :target: https://pypi.org/project/encrypted-config
     :alt: package version from PyPI
 
-.. image:: https://travis-ci.com/mbdevpl/encrypted-config.svg?branch=master
-    :target: https://travis-ci.com/mbdevpl/encrypted-config
-    :alt: build status from Travis CI
+.. image:: https://github.com/mbdevpl/encrypted-config/actions/workflows/python.yml/badge.svg?branch=main
+    :target: https://github.com/mbdevpl/encrypted-config/actions
+    :alt: build status from GitHub
 
-.. image:: https://ci.appveyor.com/api/projects/status/github/mbdevpl/encrypted-config?svg=true
-    :target: https://ci.appveyor.com/project/mbdevpl/encrypted-config
-    :alt: build status from AppVeyor
-
-.. image:: https://codecov.io/gh/mbdevpl/encrypted-config/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/mbdevpl/encrypted-config/branch/main/graph/badge.svg
     :target: https://codecov.io/gh/mbdevpl/encrypted-config
     :alt: test coverage from Codecov
 
+.. image:: https://api.codacy.com/project/badge/Grade/ba21a054e3cf4f278ad1822017ef1987
+    :target: https://app.codacy.com/gh/mbdevpl/encrypted-config
+    :alt: grade from Codacy
+
 .. image:: https://img.shields.io/github/license/mbdevpl/encrypted-config.svg
-    :target: https://github.com/mbdevpl/encrypted-config/blob/master/NOTICE
+    :target: NOTICE
     :alt: license
 
 Because of asymmetric encryption, it enables users to create encrypted configuration files readable only by the target application.
@@ -71,10 +71,10 @@ The library relies on RSA.
 Requirements
 ============
 
-Python version 3.5 or later.
+Python version 3.8 or later.
 
 Python libraries as specified in `<requirements.txt>`_.
 
 Building and running tests additionally requires packages listed in `<test_requirements.txt>`_.
 
-Tested on Linux, OS X and Windows.
+Tested on Linux, macOS and Windows.

@@ -1,14 +1,13 @@
 """Setup script for encrypted_config package."""
 
-import setup_boilerplate
+import boilerplates.setup
 
 
-class Package(setup_boilerplate.Package):
-
+class Package(boilerplates.setup.Package):
     """Package metadata."""
 
     name = 'encrypted-config'
-    description = 'Partially encrypted configuration library/tool.'
+    description = 'Read and write partially encrypted configuration files.'
     url = 'https://github.com/mbdevpl/encrypted-config'
     classifiers = [
         'Development Status :: 1 - Planning',
@@ -16,12 +15,13 @@ class Package(setup_boilerplate.Package):
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
-        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: MacOS',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX :: Linux',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Communications :: File Sharing',
         'Topic :: Security :: Cryptography',
