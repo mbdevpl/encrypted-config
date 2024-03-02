@@ -28,6 +28,8 @@ Read and write partially encrypted configuration files.
     :target: NOTICE
     :alt: license
 
+At present, it is simply an encrypted JSON I/O library.
+
 Because of asymmetric encryption, it enables users to create encrypted configuration files readable only by the target application.
 
 .. contents::
