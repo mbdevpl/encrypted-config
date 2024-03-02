@@ -16,18 +16,31 @@ class JSONEncrypter(JSONTransformer):
     def __init__(self, public_key: t.Union[pathlib.Path, str, rsa.PublicKey], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._public_key = prepare_public_key(public_key)  # type: rsa.PublicKey
+        self.keep_decrypted = False
+        self._encrypt_all = False
 
     def transform_dict(self, data: dict) -> dict:
         data = super().transform_dict(data)
-        raise NotImplementedError()
-
-    def transform_list(self, data: list) -> list:
-        data = super().transform_list(data)
-        raise NotImplementedError()
+        transformed = type(data)()
+        for key, value in data.items():
+            if key.startswith('secure:'):
+                if key not in transformed:
+                    transformed[key] = value
+                continue
+            secure_key = 'secure:{}'.format(key)
+            if secure_key in data:
+                transformed[secure_key] = encrypt(value, self._public_key)
+                if self.keep_decrypted:
+                    transformed[key] = value
+            else:
+                transformed[key] = self.transform_value(value)
+        return transformed
 
     def transform_str(self, data: str) -> str:
         data = super().transform_str(data)
-        return 'secure:{}'.format(encrypt(data, self._public_key))
+        if self._encrypt_all:
+            return 'secure:{}'.format(encrypt(data, self._public_key))
+        return data
 
 
 def encrypt_json(data: t.Union[str, list, dict],
@@ -52,18 +65,10 @@ class JSONDecrypter(JSONTransformer):
         for key, value in data.items():
             if key.startswith('secure:'):
                 transformed[key[7:]] = decrypt(value, self._private_key)
-            if not key.startswith('secure:') or self.keep_encrypted:
-                transformed[key] = value
-        return transformed
-
-    def transform_list(self, data: list) -> list:
-        data = super().transform_list(data)
-        transformed = type(data)()
-        for value in data:
-            if value.startswith('secure:'):
-                transformed.append(decrypt(value[7:], self._private_key))
+                if self.keep_encrypted:
+                    transformed[key] = value
             else:
-                transformed.append(value)
+                transformed[key] = self.transform_value(value)
         return transformed
 
     def transform_str(self, data: str) -> str:
