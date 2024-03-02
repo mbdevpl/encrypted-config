@@ -2,38 +2,14 @@
 import contextlib
 import io
 import pathlib
-import sys
 import unittest
+
+from boilerplates.packaging_tests import run_module
 
 from encrypted_config.crypto import encrypt
 from encrypted_config.main import main
-from .test_setup import run_module
 
 _HERE = pathlib.Path(__file__).parent
-
-if sys.version_info < (3, 5):
-
-    class _RedirectStream:
-
-        _stream = None
-
-        def __init__(self, new_target):
-            self._new_target = new_target
-            self._old_targets = []
-
-        def __enter__(self):
-            self._old_targets.append(getattr(sys, self._stream))
-            setattr(sys, self._stream, self._new_target)
-            return self._new_target
-
-        def __exit__(self, exctype, excinst, exctb):
-            setattr(sys, self._stream, self._old_targets.pop())
-
-    class _RedirectStderr(_RedirectStream):  # pylint: disable=too-few-public-methods
-
-        _stream = 'stderr'
-
-    contextlib.redirect_stderr = _RedirectStderr
 
 
 class Tests(unittest.TestCase):
