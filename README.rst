@@ -6,7 +6,7 @@
 encrypted-config
 ================
 
-Library and command-line tool for reading and writing of partially encrypted configuration files.
+Read and write partially encrypted configuration files.
 
 .. image:: https://img.shields.io/pypi/v/encrypted-config.svg
     :target: https://pypi.org/project/encrypted-config
@@ -16,12 +16,16 @@ Library and command-line tool for reading and writing of partially encrypted con
     :target: https://github.com/mbdevpl/encrypted-config/actions
     :alt: build status from GitHub
 
-.. image:: https://codecov.io/gh/mbdevpl/encrypted-config/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/mbdevpl/encrypted-config/branch/main/graph/badge.svg
     :target: https://codecov.io/gh/mbdevpl/encrypted-config
     :alt: test coverage from Codecov
 
+.. image:: https://api.codacy.com/project/badge/Grade/ba21a054e3cf4f278ad1822017ef1987
+    :target: https://app.codacy.com/gh/mbdevpl/encrypted-config
+    :alt: grade from Codacy
+
 .. image:: https://img.shields.io/github/license/mbdevpl/encrypted-config.svg
-    :target: https://github.com/mbdevpl/encrypted-config/blob/master/NOTICE
+    :target: NOTICE
     :alt: license
 
 Because of asymmetric encryption, it enables users to create encrypted configuration files readable only by the target application.

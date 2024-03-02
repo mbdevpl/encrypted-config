@@ -7,7 +7,7 @@ class Package(boilerplates.setup.Package):
     """Package metadata."""
 
     name = 'encrypted-config'
-    description = 'Partially encrypted configuration library/tool.'
+    description = 'Read and write partially encrypted configuration files.'
     url = 'https://github.com/mbdevpl/encrypted-config'
     classifiers = [
         'Development Status :: 1 - Planning',
